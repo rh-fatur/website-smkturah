@@ -92,3 +92,52 @@ The site is intentionally built without dependencies like React, Vue, or Tailwin
 ---
 
 ## 📁 Project Structure
+
+
+```
+smk-turah/
+├── index.html
+├── README.md
+└── assets/
+    ├── css/
+    │   └── style.css          ← seluruh styling (dibagi per bagian lewat komentar)
+    ├── js/
+    │   ├── init.js            ← sembunyikan halaman sampai CSS/font/gambar siap, lalu tampilkan
+    │   ├── data/              ← konten (data-driven), satu file per kategori
+    │   │   ├── jurusan.js
+    │   │   ├── ekskul.js      ← EKSKUL_DATA (kartu) + EKSKUL_DETAIL_DATA (halaman detail)
+    │   │   ├── berita.js
+    │   │   ├── guru.js
+    │   │   └── ulasan.js
+    │   ├── effects.js         ← engine animasi, scroll effects, dan config animasi per section
+    │   └── script.js          ← logika: navbar, halaman, berita, akademik, profil, ulasan, pendaftaran
+    └── pictures/              ← semua foto
+        ├── logo-smk.png
+        ├── halaman-depan.jpg
+        ├── halaman-depan-sekolah.jpg
+        ├── halaman-sekolah.jpg
+        ├── suasana-sekolah.jpg
+        ├── banner/ (jurusan, ekskul)
+        ├── akademik/
+        ├── berita/
+        ├── galeri/
+        ├── guru/
+        ├── kegiatan/
+        ├── kegiatan-praktik/
+        ├── kpk/
+        └── prestasi/
+```
+
+### Urutan load
+
+1. `init.js` (di `<head>`) — halaman disembunyikan sebentar.
+2. `style.css`
+3. `data/*.js` — mengisi `JURUSAN_DATA`, `EKSKUL_DATA`, `EKSKUL_DETAIL_DATA`, `BERITA_DATA`, `GURU_DATA`, `ULASAN_DATA`.
+4. `effects.js`
+5. `script.js` — membaca data di atas lalu merender halaman.
+
+Data harus dimuat sebelum `script.js`. Menambah konten = menambah satu objek di array pada file kategorinya.
+
+### Menampilkan halaman
+
+`init.js` menunggu `window.load` dan `document.fonts.ready`, lalu memberi jeda 450 ms sebelum halaman fade-in. Ada batas maksimal 5 detik supaya halaman tetap terbuka walau ada resource (misalnya CDN) yang lambat. Kedua angka ini ada di bagian atas `init.js`.
